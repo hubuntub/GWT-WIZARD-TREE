@@ -32,3 +32,11 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+.tokenLayout{
+	
+}
+
+.tokenBlue{
+	display: inline-block;
+	height: 40px
+}

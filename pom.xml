@@ -11,17 +11,17 @@
 
     <properties>
         <!-- Project properties -->
-        <target.jdk>1.6</target.jdk>
+        <target.jdk>1.7</target.jdk>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <webapp.directory>${project.build.directory}/${project.build.finalName}</webapp.directory>
 
         <!-- Dependencies versions -->
-        <gwt.version>2.3.0</gwt.version>
+        <gwt.version>2.6.0</gwt.version>
         <junit.version>4.8.1</junit.version>
 
         <!-- Plugin properties -->
-        <gwt-maven-plugin.version>2.2.0</gwt-maven-plugin.version>
+        <gwt-maven-plugin.version>2.6.0</gwt-maven-plugin.version>
         <maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
         <maven-eclipse-plugin.version>2.8</maven-eclipse-plugin.version>
         <maven-clean-plugin.version>2.4.1</maven-clean-plugin.version>

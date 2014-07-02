@@ -1,5 +1,6 @@
 package com.mycompany.example.client;
 
+import com.mycompany.example.client.wizard.Wizard;
 import com.mycompany.example.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -50,8 +51,12 @@ public class MyGwtApp implements EntryPoint {
 
     // Add the nameField and sendButton to the RootPanel
     // Use RootPanel.get() to get the entire body element
-    RootPanel.get("nameFieldContainer").add(nameField);
-    RootPanel.get("sendButtonContainer").add(sendButton);
+    Wizard wizard = new Wizard();
+    wizard.start();
+    wizard.setWidth("100%");
+    wizard.setHeight("100%");
+    
+    RootPanel.get("nameFieldContainer").add(wizard);
     RootPanel.get("errorLabelContainer").add(errorLabel);
 
     // Focus the cursor on the name field when the app loads
