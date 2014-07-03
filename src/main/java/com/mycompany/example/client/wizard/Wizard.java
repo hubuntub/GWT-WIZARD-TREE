@@ -93,10 +93,15 @@ public class Wizard extends Composite{
 				createStep(ElementType.PRIMARY_BO, new SelectValueStep(), value);
 			} 
 			break;
+		case PRIMARY_BO:
+			addToken(step);
+			updateLayout(); 
+			break;
 		default:
 			break;
 		}
 	}
+	
 	
 	private boolean hasPrimaryBoType(String value) {
 		log.log(Level.INFO, "HasPrimaryBOTYPEBy " + value);

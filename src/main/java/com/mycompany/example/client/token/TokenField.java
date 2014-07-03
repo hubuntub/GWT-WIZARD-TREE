@@ -34,7 +34,7 @@ public class TokenField extends Composite {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				MDMEventBus.EVENT_BUS.fireEventFromSource(event, this);
+				MDMEventBus.EVENT_BUS.fireEvent(new TokenClickEvent(TokenField.this));
 			}
 		});
         tokenField.add(label);

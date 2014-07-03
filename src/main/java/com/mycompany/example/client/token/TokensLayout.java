@@ -9,9 +9,6 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.mycompany.example.client.MDMEventBus;
@@ -25,7 +22,7 @@ public class TokensLayout extends Composite {
 	private static final String HEIGHT = "50px";
 	private FlowPanel flowpanel = new FlowPanel();
 	Logger log = Logger.getLogger("TokensLayout");
-	private Map<AbstractStep, TokenField> wizards = new LinkedHashMap<AbstractStep, TokenField>();
+	private Map<AbstractStep, TokenField> steps = new LinkedHashMap<AbstractStep, TokenField>();
 	private List<TokenField> tokens = new ArrayList<TokenField>();
 
 	public TokensLayout() {
@@ -33,8 +30,30 @@ public class TokensLayout extends Composite {
 		flowpanel.setWidth("100%");
 		flowpanel.addStyleName(INSTANCE.tokenLayout());
 		initWidget(flowpanel);
+		MDMEventBus.EVENT_BUS.addHandler(TokenClickEvent.TYPE,
+				new TokenClickHandler() {
+
+					@Override
+					public void tokenClick(TokenClickEvent event) {
+						TokenField tokenField = event.getTokenField();
+						AbstractStep abstractStep = getStepFrom(tokenField);
+						if (abstractStep != null) {
+							MDMEventBus.EVENT_BUS
+									.fireEvent(new WizardCancelEvent(
+											abstractStep));
+						}
+					}
+				});
 	}
 
+	private AbstractStep getStepFrom(TokenField tokenField) {
+		for (Entry<AbstractStep, TokenField> entry : steps.entrySet()) {
+			if (entry.getValue().equals(tokenField)) {
+				return entry.getKey();
+			}
+		}
+		return null;
+	}
 
 	public void createToken(final AbstractStep abstractStep) {
 		ElementType color = abstractStep.getElementType();
@@ -42,21 +61,13 @@ public class TokensLayout extends Composite {
 		log.log(Level.INFO, "create token " + content);
 		TokenField tokenField = new TokenField(content, color);
 		if (abstractStep instanceof SelectValueStep) {
-			wizards.put(abstractStep, tokenField);
+			steps.put(abstractStep, tokenField);
 		}
-		log.log(Level.INFO, "wizards size " + wizards.size());
-		log.log(Level.INFO, "wizards contains " + abstractStep + " : " + wizards.containsKey(abstractStep));
-		MDMEventBus.EVENT_BUS.addHandler(ClickEvent.getType(), new ClickHandler() {
+		log.log(Level.INFO, "wizards size " + steps.size());
+		log.log(Level.INFO,
+				"wizards contains " + abstractStep + " : "
+						+ steps.containsKey(abstractStep));
 
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!(event.getSource() instanceof Button)) {
-					MDMEventBus.EVENT_BUS.fireEvent(new WizardCancelEvent(
-							abstractStep));
-				}
-
-			}
-		});
 		if (!tokenField.isAttached()) {
 			flowpanel.add(tokenField);
 		}
@@ -64,9 +75,9 @@ public class TokensLayout extends Composite {
 
 	public void removeToken(final AbstractStep abstractStep) {
 		flowpanel.clear();
-	
+
 		removeTokensAfter(abstractStep);
-		for (TokenField tokenField : wizards.values()) {
+		for (TokenField tokenField : steps.values()) {
 			if (!tokenField.isAttached()) {
 				flowpanel.add(tokenField);
 			}
@@ -74,10 +85,11 @@ public class TokensLayout extends Composite {
 	}
 
 	private void removeTokensAfter(AbstractStep abstractStep) {
-		log.log(Level.INFO, "BEFORE REMOVAL wizards size " + wizards.size());
-		log.log(Level.INFO, "BEFORE REMOVAL wizards contains " + abstractStep + " : " + wizards.containsKey(abstractStep));
-		
-		Iterator<Entry<AbstractStep, TokenField>> iter = wizards.entrySet()
+		log.log(Level.INFO, "BEFORE REMOVAL wizards size " + steps.size());
+		log.log(Level.INFO, "BEFORE REMOVAL wizards contains " + abstractStep
+				+ " : " + steps.containsKey(abstractStep));
+
+		Iterator<Entry<AbstractStep, TokenField>> iter = steps.entrySet()
 				.iterator();
 		while (iter.hasNext()) {
 			Entry<AbstractStep, TokenField> entry = iter.next();
@@ -86,15 +98,15 @@ public class TokensLayout extends Composite {
 				break;
 			}
 		}
-		log.log(Level.INFO, "AFTER REMOVAL wizards size " + wizards.size());
-		log.log(Level.INFO, "AFTER REMOVAL wizards contains " + abstractStep + " : " + wizards.containsKey(abstractStep));
-		
-//		while (iter.hasNext()) {
-//			iter.next();
-//			iter.remove();
-//		}
-	}
+		log.log(Level.INFO, "AFTER REMOVAL wizards size " + steps.size());
+		log.log(Level.INFO, "AFTER REMOVAL wizards contains " + abstractStep
+				+ " : " + steps.containsKey(abstractStep));
 
+		while (iter.hasNext()) {
+			iter.next();
+			iter.remove();
+		}
+	}
 
 	public void clear() {
 		tokens.clear();
