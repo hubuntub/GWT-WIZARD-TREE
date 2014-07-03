@@ -83,4 +83,10 @@ public class SelectTypeStep extends AbstractStep {
 		selector.build(result);
 	}
 
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

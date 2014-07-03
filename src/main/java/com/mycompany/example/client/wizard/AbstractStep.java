@@ -39,4 +39,5 @@ public abstract class AbstractStep {
 	public abstract Widget getWidget();
 
 	public abstract void setData();
+	public abstract void reset();
 }

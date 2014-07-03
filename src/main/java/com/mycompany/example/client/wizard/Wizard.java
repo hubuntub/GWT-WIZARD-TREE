@@ -19,7 +19,7 @@ public class Wizard extends Composite{
 	public Wizard(){
 		mainPanel.setHeight("100%");
 		tokensLayout.setWidth("100%");
-		mainPanel.setSpacing(5);
+		mainPanel.setSpacing(10);
 		
 		initWidget(mainPanel);
 		MDMEventBus.EVENT_BUS.addHandler(WizardAdvanceEvent.TYPE,

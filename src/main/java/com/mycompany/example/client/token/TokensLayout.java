@@ -22,7 +22,7 @@ import com.mycompany.example.client.wizard.SelectValueStep;
 import com.mycompany.example.client.wizard.WizardCancelEvent;
 
 public class TokensLayout extends Composite {
-	private static final String HEIGHT = "40px";
+	private static final String HEIGHT = "50px";
 	private FlowPanel flowpanel = new FlowPanel();
 	Logger log = Logger.getLogger("TokensLayout");
 	private Map<AbstractStep, TokenField> wizards = new LinkedHashMap<AbstractStep, TokenField>();
@@ -44,6 +44,8 @@ public class TokensLayout extends Composite {
 		if (abstractStep instanceof SelectValueStep) {
 			wizards.put(abstractStep, tokenField);
 		}
+		log.log(Level.INFO, "wizards size " + wizards.size());
+		log.log(Level.INFO, "wizards contains " + abstractStep + " : " + wizards.containsKey(abstractStep));
 		MDMEventBus.EVENT_BUS.addHandler(ClickEvent.getType(), new ClickHandler() {
 
 			@Override
@@ -60,10 +62,10 @@ public class TokensLayout extends Composite {
 		}
 	}
 
-	public void removeToken(final AbstractStep wizardStep) {
+	public void removeToken(final AbstractStep abstractStep) {
 		flowpanel.clear();
-
-		removeTokensAfter(wizardStep);
+	
+		removeTokensAfter(abstractStep);
 		for (TokenField tokenField : wizards.values()) {
 			if (!tokenField.isAttached()) {
 				flowpanel.add(tokenField);
@@ -71,16 +73,22 @@ public class TokensLayout extends Composite {
 		}
 	}
 
-	private void removeTokensAfter(AbstractStep wizardStep) {
+	private void removeTokensAfter(AbstractStep abstractStep) {
+		log.log(Level.INFO, "BEFORE REMOVAL wizards size " + wizards.size());
+		log.log(Level.INFO, "BEFORE REMOVAL wizards contains " + abstractStep + " : " + wizards.containsKey(abstractStep));
+		
 		Iterator<Entry<AbstractStep, TokenField>> iter = wizards.entrySet()
 				.iterator();
 		while (iter.hasNext()) {
 			Entry<AbstractStep, TokenField> entry = iter.next();
-			if (wizardStep.equals(entry.getKey())) {
+			if (abstractStep.equals(entry.getKey())) {
 				iter.remove();
 				break;
 			}
 		}
+		log.log(Level.INFO, "AFTER REMOVAL wizards size " + wizards.size());
+		log.log(Level.INFO, "AFTER REMOVAL wizards contains " + abstractStep + " : " + wizards.containsKey(abstractStep));
+		
 //		while (iter.hasNext()) {
 //			iter.next();
 //			iter.remove();

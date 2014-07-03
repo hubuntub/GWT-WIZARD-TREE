@@ -1,17 +1,20 @@
 package com.mycompany.example.client.token;
 
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.mycompany.example.client.MDMEventBus;
+import com.mycompany.example.client.Resources;
 import com.mycompany.example.client.wizard.ElementType;
 import com.mycompany.example.client.wizard.INSTANCE;
 public class TokenField extends Composite {
-
+	static Resources resources = GWT.create(Resources.class);
 	protected HorizontalPanel tokenField = new HorizontalPanel();
 	private static final String HEIGHT = "40px";
 	protected ElementType color;
@@ -25,7 +28,7 @@ public class TokenField extends Composite {
 	private void build() {
 		Label label = new Label(content);
 		label.setStyleName(INSTANCE.tokenLabel());
-        Button deleteImage = new Button("x");
+		PushButton deleteImage = new PushButton(new Image(resources.cancelButton()));
 		deleteImage.setSize("16px", "16px");
 		deleteImage.addClickHandler(new ClickHandler() {
 			
