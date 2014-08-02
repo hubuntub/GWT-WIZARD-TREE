@@ -53,48 +53,17 @@ public class SelectValueStep extends AbstractStep {
 
 	}
 
-	@Override
-	public void setData() {
-		switch (elementType) {
-		case DOC_TYPE:
-			getAllDocTypes();
-			break;
-		case PRIMARY_BO:
-			getPrimaryBO();
-			break;
-		case BO:
-			getBO();
-			break;
 
-		default:
-			break;
-		}
-
-	}
-
-	private void getPrimaryBO() {
-		List<String> result = ServiceFactory.getPrimaryBO(previousValue);
-		oracle.clear();
-		oracle.addAll(result);
-	}
-
-	private void getBO() {
-		List<String> result = ServiceFactory.getBOBy(previousValue);
-		oracle.clear();
-		oracle.addAll(result);
-
-	}
-
-	private void getAllDocTypes() {
-		List<String> result = ServiceFactory.getAllDocTypes();
-		oracle.clear();
-		oracle.addAll(result);
-
-	}
 
 	@Override
 	public void reset() {
 		suggestBox.setText("");
+	}
+
+	@Override
+	public void addAll(List<String> result) {
+		oracle.clear();
+        oracle.addAll(result);
 	}
 
 }
