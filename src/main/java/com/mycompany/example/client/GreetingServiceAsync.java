@@ -1,5 +1,7 @@
 package com.mycompany.example.client;
 
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -29,7 +31,7 @@ public interface GreetingServiceAsync
         ServiceDefTarget target = (ServiceDefTarget) instance;
         target.setServiceEntryPoint( GWT.getModuleBaseURL() + "GreetingService" );
       }
-      return instance;
+      return instance; 	
     }
 
     private Util()
@@ -37,4 +39,23 @@ public interface GreetingServiceAsync
       // Utility class should not be instanciated
     }
   }
+
+
+void getPrimaryBOTypeBy(String previousValue,
+		AsyncCallback<List<String>> callback);
+
+
+void getBOTypeBy(String previousValue, AsyncCallback<List<String>> callback);
+
+
+void getBOBy(String previousValue, AsyncCallback<List<String>> callback);
+
+
+void getAllDocTypes(AsyncCallback<List<String>> callback);
+
+
+void getPrimaryBO(String previousValue, AsyncCallback<List<String>> callback);
+
+
+void hasPrimaryBOType(String value, AsyncCallback<Boolean> callback);
 }

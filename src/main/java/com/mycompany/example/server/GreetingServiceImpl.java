@@ -1,5 +1,8 @@
 package com.mycompany.example.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mycompany.example.client.GreetingService;
 import com.mycompany.example.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -45,4 +48,57 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(
         ">", "&gt;");
   }
+
+@Override
+public List<String> getPrimaryBOTypeBy(String previousValue) {
+	List<String> list = new ArrayList<String>();
+	list.add("primaryBoType 1");
+	return list;
+}
+
+@Override
+public List<String> getBOTypeBy(String previousValue) {
+	List<String> list = new ArrayList<String>();
+	list.add("BoType 1");
+	list.add("BoType 2");
+	list.add("BoType 3");
+	list.add("BoType 4");
+	return list;
+}
+
+@Override
+public List<String> getBOBy(String previousValue) {
+	List<String> list = new ArrayList<String>();
+	list.add("Bo 1");
+	list.add("Bo 2");
+	list.add("Bo 3");
+	list.add("Bo 4");
+	return list;
+}
+
+@Override
+public List<String> getAllDocTypes() {
+	List<String> list = new ArrayList<String>();
+	list.add("DocType 1");
+	list.add("DocType 2");
+	list.add("DocType 3");
+	list.add("DocType 4");
+	return list;
+}
+
+@Override
+public List<String> getPrimaryBO(String previousValue) {
+	List<String> list = new ArrayList<String>();
+	list.add("PrimaryBO 1");
+	list.add("PrimaryBO 2");
+	list.add("PrimaryBO 3");
+	list.add("PrimaryBO 4");
+	return list;
+}
+
+@Override
+public boolean hasPrimaryBOType(String value) {
+	// TODO Auto-generated method stub
+	return true;
+}
 }

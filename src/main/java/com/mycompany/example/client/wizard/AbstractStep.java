@@ -1,5 +1,7 @@
 package com.mycompany.example.client.wizard;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AbstractStep {
@@ -38,6 +40,6 @@ public abstract class AbstractStep {
 
 	public abstract Widget getWidget();
 
-	public abstract void setData();
 	public abstract void reset();
+	public abstract void addAll(final List<String> result);
 }

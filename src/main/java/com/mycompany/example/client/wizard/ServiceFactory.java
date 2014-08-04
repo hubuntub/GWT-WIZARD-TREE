@@ -1,59 +1,79 @@
 package com.mycompany.example.client.wizard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.google.gwt.core.client.GWT;
+import com.mycompany.example.client.GreetingService;
+import com.mycompany.example.client.GreetingServiceAsync;
+import com.mycompany.example.client.MDMAsyncCallback;
 
 public class ServiceFactory {
+	protected static List<String> cacheDocType = new ArrayList<>();
+	protected static Map<String, List<String>> cachePrimaryBOType = new HashMap<>();
+	private final static GreetingServiceAsync greetingService = GWT
+			.create(GreetingService.class);
 
-	public static List<String> getPrimaryBOTypeBy(String previousValue) {
-		List<String> list = new ArrayList<String>();
-		list.add("primaryBoType 1");
-		list.add("primaryBoType 2");
-		list.add("primaryBoType 3");
-		list.add("primaryBoType 4");
-		list.add("primaryBoType 5");
-		return list;
+	public static void getPrimaryBOTypeBy(final String previousValue,
+			final MDMAsyncCallback<List<String>> callback) {
+		if (cachePrimaryBOType.containsKey(previousValue)) {
+            GWT.log("getPrimaryBOType cached (" + previousValue + " ) => result: "
+                    + cachePrimaryBOType.get(previousValue));
+            callback.doSuccess(cachePrimaryBOType.get(previousValue));
+        } else {
+		greetingService.getPrimaryBOTypeBy(previousValue, new MDMAsyncCallback<List<String>>() {
+
+			@Override
+			public void doSuccess(List<String> result) {
+				  List<String> cached = new ArrayList<>();
+                  cached.addAll(result);
+                  cachePrimaryBOType.put(previousValue, cached);
+                  GWT.log("getPrimaryBOType first (" + previousValue + " ) => result: "
+                          + cachePrimaryBOType.get(previousValue));
+                  callback.doSuccess(cached);
+			}
+		});
+        }
+
 	}
 
-	public static List<String> getBOTypeBy(String previousValue) {
-		List<String> list = new ArrayList<String>();
-		list.add("BoType 1");
-		list.add("BoType 2");
-		list.add("BoType 3");
-		list.add("BoType 4");
-		return list;
+	public static void getBOTypeBy(String previousValue,
+			final MDMAsyncCallback<List<String>> callback) {
+		greetingService.getBOTypeBy(previousValue, callback);
 	}
 
-	public static List<String> getBOBy(String previousValue) {
-		List<String> list = new ArrayList<String>();
-		list.add("Bo 1");
-		list.add("Bo 2");
-		list.add("Bo 3");
-		list.add("Bo 4");
-		return list;
+	public static void getBOBy(String previousValue,
+			final MDMAsyncCallback<List<String>> callback) {
+		greetingService.getBOBy(previousValue, callback);
 	}
 
-	public static List<String> getAllDocTypes() {
-		List<String> list = new ArrayList<String>();
-		list.add("DocType 1");
-		list.add("DocType 2");
-		list.add("DocType 3");
-		list.add("DocType 4");
-		return list;
+	public static void getAllDocTypes(
+			final MDMAsyncCallback<List<String>> callback) {
+		if (cacheDocType.isEmpty()) {
+			greetingService
+					.getAllDocTypes(new MDMAsyncCallback<List<String>>() {
+
+						@Override
+						public void doSuccess(List<String> result) {
+							cacheDocType.addAll(result);
+							callback.doSuccess(cacheDocType);
+						}
+					});
+		} else {
+			callback.doSuccess(cacheDocType);
+		}
 	}
 
-	public static List<String> getPrimaryBO(String previousValue) {
-		List<String> list = new ArrayList<String>();
-		list.add("PrimaryBO 1");
-		list.add("PrimaryBO 2");
-		list.add("PrimaryBO 3");
-		list.add("PrimaryBO 4");
-		return list;
+	public static void getPrimaryBO(String previousValue,
+			final MDMAsyncCallback<List<String>> callback) {
+		greetingService.getPrimaryBO(previousValue, callback);
 	}
 
-	public static boolean hasPrimaryBOType(String value) {
-		// TODO Auto-generated method stub
-		return true;
+	public static void hasPrimaryBOType(String previousValue,
+			final MDMAsyncCallback<Boolean> callback) {
+		greetingService.hasPrimaryBOType(previousValue, callback);
 	}
 
 }
